@@ -22,14 +22,14 @@ pub fn part_one(input: &str) -> Option<u64> {
                     .fold_while(0, |sum, operations| {
                         let mut op_iter = operations.iter();
                         let mut result = numbers[0];
-                        for i in 1..numbers.len() {
+                        for num in numbers.iter().skip(1) {
                             result = match op_iter.next() {
-                                Some('+') => result + numbers[i],
-                                Some('*') => result * numbers[i],
+                                Some('+') => result + num,
+                                Some('*') => result * num,
                                 _ => panic!("wrong"),
                             };
                             if result > test_num {
-                                Continue(sum);
+                                return Continue(sum);
                             }
                         }
                         if result == test_num {
@@ -62,17 +62,15 @@ pub fn part_two(input: &str) -> Option<u64> {
                     .fold_while(0, |sum, operations| {
                         let mut op_iter = operations.iter();
                         let mut result = numbers[0];
-                        for i in 1..numbers.len() {
+                        for num in numbers.iter().skip(1) {
                             result = match op_iter.next() {
-                                Some('+') => result + numbers[i],
-                                Some('*') => result * numbers[i],
-                                Some('|') => {
-                                    format!("{}{}", result, numbers[i]).parse().unwrap_or(0)
-                                }
+                                Some('+') => result + num,
+                                Some('*') => result * num,
+                                Some('|') => format!("{}{}", result, num).parse().unwrap_or(0),
                                 _ => panic!("wrong"),
                             };
                             if result > test_num {
-                                Continue(sum);
+                                return Continue(sum);
                             }
                         }
                         if result == test_num {
